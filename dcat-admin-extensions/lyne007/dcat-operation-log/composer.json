@@ -1,0 +1,32 @@
+{
+    "name": "lyne007/dcat-operation-log",
+    "alias": "",
+    "description": "Description...",
+    "type": "library",
+    "keywords": ["dcat-admin", "extension"],
+    "homepage": "https://github.com/lyne007/dcat-operation-log",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "your name",
+            "email": "your email"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "dcat/laravel-admin": "~2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lyne007\\DcatOperationLog\\": "src/"
+        }
+    },
+    "extra": {
+        "dcat-admin": "Lyne007\\DcatOperationLog\\DcatOperationLogServiceProvider",
+        "laravel": {
+            "providers": [
+                "Lyne007\\DcatOperationLog\\DcatOperationLogServiceProvider"
+            ]
+        }
+    }
+}
