@@ -19,7 +19,7 @@ class CreateGoodsTable extends Migration
             $table->string('goods_name')->default('')->comment('商品名称');
             $table->integer('cate_id_one')->comment('商品所属一级分类');
             $table->integer('cate_id_two')->comment('二级分类id');
-            $table->integer('sku_id')->comment('sku id');
+            $table->text('attribute_list')->comment('前台显示使用，选择后拼接出goods_specs,再加上goods_id用于在商品规格表中查找具体的sku');
             $table->integer('vendor_id')->comment('关联供应商id');
             $table->smallInteger('goods_sales')->comment('产品销量');
             $table->string('goods_smallpic')->default('')->comment('产品缩略图   url  多个以|隔开，最多5个');

@@ -21,6 +21,7 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection goods_smallpic
      * @property Grid\Column|Collection goods_bigpic
      * @property Grid\Column|Collection editor
+     * @property Grid\Column|Collection attribute_id
      * @property Grid\Column|Collection id
      * @property Grid\Column|Collection name
      * @property Grid\Column|Collection type
@@ -52,7 +53,6 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection remember_token
      * @property Grid\Column|Collection category_id
      * @property Grid\Column|Collection attribute_name
-     * @property Grid\Column|Collection attribute_id
      * @property Grid\Column|Collection attribute_value
      * @property Grid\Column|Collection merchant_id
      * @property Grid\Column|Collection b_sort_weight
@@ -70,10 +70,17 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection failed_at
      * @property Grid\Column|Collection goods_code
      * @property Grid\Column|Collection goods_name
-     * @property Grid\Column|Collection sku_id
+     * @property Grid\Column|Collection attribute_list
      * @property Grid\Column|Collection vendor_id
      * @property Grid\Column|Collection goods_sales
      * @property Grid\Column|Collection goods_details
+     * @property Grid\Column|Collection goods_id
+     * @property Grid\Column|Collection goods_specs
+     * @property Grid\Column|Collection specs_key
+     * @property Grid\Column|Collection goods_stock
+     * @property Grid\Column|Collection goods_price
+     * @property Grid\Column|Collection market_price
+     * @property Grid\Column|Collection spec_pic
      * @property Grid\Column|Collection m_code
      * @property Grid\Column|Collection m_name
      * @property Grid\Column|Collection m_contact
@@ -93,6 +100,7 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection goods_smallpic(string $label = null)
      * @method Grid\Column|Collection goods_bigpic(string $label = null)
      * @method Grid\Column|Collection editor(string $label = null)
+     * @method Grid\Column|Collection attribute_id(string $label = null)
      * @method Grid\Column|Collection id(string $label = null)
      * @method Grid\Column|Collection name(string $label = null)
      * @method Grid\Column|Collection type(string $label = null)
@@ -124,7 +132,6 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection remember_token(string $label = null)
      * @method Grid\Column|Collection category_id(string $label = null)
      * @method Grid\Column|Collection attribute_name(string $label = null)
-     * @method Grid\Column|Collection attribute_id(string $label = null)
      * @method Grid\Column|Collection attribute_value(string $label = null)
      * @method Grid\Column|Collection merchant_id(string $label = null)
      * @method Grid\Column|Collection b_sort_weight(string $label = null)
@@ -142,10 +149,17 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection failed_at(string $label = null)
      * @method Grid\Column|Collection goods_code(string $label = null)
      * @method Grid\Column|Collection goods_name(string $label = null)
-     * @method Grid\Column|Collection sku_id(string $label = null)
+     * @method Grid\Column|Collection attribute_list(string $label = null)
      * @method Grid\Column|Collection vendor_id(string $label = null)
      * @method Grid\Column|Collection goods_sales(string $label = null)
      * @method Grid\Column|Collection goods_details(string $label = null)
+     * @method Grid\Column|Collection goods_id(string $label = null)
+     * @method Grid\Column|Collection goods_specs(string $label = null)
+     * @method Grid\Column|Collection specs_key(string $label = null)
+     * @method Grid\Column|Collection goods_stock(string $label = null)
+     * @method Grid\Column|Collection goods_price(string $label = null)
+     * @method Grid\Column|Collection market_price(string $label = null)
+     * @method Grid\Column|Collection spec_pic(string $label = null)
      * @method Grid\Column|Collection m_code(string $label = null)
      * @method Grid\Column|Collection m_name(string $label = null)
      * @method Grid\Column|Collection m_contact(string $label = null)
@@ -170,6 +184,7 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection goods_smallpic
      * @property Show\Field|Collection goods_bigpic
      * @property Show\Field|Collection editor
+     * @property Show\Field|Collection attribute_id
      * @property Show\Field|Collection id
      * @property Show\Field|Collection name
      * @property Show\Field|Collection type
@@ -201,7 +216,6 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection remember_token
      * @property Show\Field|Collection category_id
      * @property Show\Field|Collection attribute_name
-     * @property Show\Field|Collection attribute_id
      * @property Show\Field|Collection attribute_value
      * @property Show\Field|Collection merchant_id
      * @property Show\Field|Collection b_sort_weight
@@ -219,10 +233,17 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection failed_at
      * @property Show\Field|Collection goods_code
      * @property Show\Field|Collection goods_name
-     * @property Show\Field|Collection sku_id
+     * @property Show\Field|Collection attribute_list
      * @property Show\Field|Collection vendor_id
      * @property Show\Field|Collection goods_sales
      * @property Show\Field|Collection goods_details
+     * @property Show\Field|Collection goods_id
+     * @property Show\Field|Collection goods_specs
+     * @property Show\Field|Collection specs_key
+     * @property Show\Field|Collection goods_stock
+     * @property Show\Field|Collection goods_price
+     * @property Show\Field|Collection market_price
+     * @property Show\Field|Collection spec_pic
      * @property Show\Field|Collection m_code
      * @property Show\Field|Collection m_name
      * @property Show\Field|Collection m_contact
@@ -242,6 +263,7 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection goods_smallpic(string $label = null)
      * @method Show\Field|Collection goods_bigpic(string $label = null)
      * @method Show\Field|Collection editor(string $label = null)
+     * @method Show\Field|Collection attribute_id(string $label = null)
      * @method Show\Field|Collection id(string $label = null)
      * @method Show\Field|Collection name(string $label = null)
      * @method Show\Field|Collection type(string $label = null)
@@ -273,7 +295,6 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection remember_token(string $label = null)
      * @method Show\Field|Collection category_id(string $label = null)
      * @method Show\Field|Collection attribute_name(string $label = null)
-     * @method Show\Field|Collection attribute_id(string $label = null)
      * @method Show\Field|Collection attribute_value(string $label = null)
      * @method Show\Field|Collection merchant_id(string $label = null)
      * @method Show\Field|Collection b_sort_weight(string $label = null)
@@ -291,10 +312,17 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection failed_at(string $label = null)
      * @method Show\Field|Collection goods_code(string $label = null)
      * @method Show\Field|Collection goods_name(string $label = null)
-     * @method Show\Field|Collection sku_id(string $label = null)
+     * @method Show\Field|Collection attribute_list(string $label = null)
      * @method Show\Field|Collection vendor_id(string $label = null)
      * @method Show\Field|Collection goods_sales(string $label = null)
      * @method Show\Field|Collection goods_details(string $label = null)
+     * @method Show\Field|Collection goods_id(string $label = null)
+     * @method Show\Field|Collection goods_specs(string $label = null)
+     * @method Show\Field|Collection specs_key(string $label = null)
+     * @method Show\Field|Collection goods_stock(string $label = null)
+     * @method Show\Field|Collection goods_price(string $label = null)
+     * @method Show\Field|Collection market_price(string $label = null)
+     * @method Show\Field|Collection spec_pic(string $label = null)
      * @method Show\Field|Collection m_code(string $label = null)
      * @method Show\Field|Collection m_name(string $label = null)
      * @method Show\Field|Collection m_contact(string $label = null)

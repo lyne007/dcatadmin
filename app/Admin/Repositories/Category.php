@@ -2,9 +2,9 @@
 
 namespace App\Admin\Repositories;
 
-use App\Models\Category as Model;
+//use App\Models\Category as Model;
 use Dcat\Admin\Repositories\EloquentRepository;
-use Category as CategoryModel;
+use App\Models\Category as CategoryModel;
 
 class Category extends EloquentRepository
 {

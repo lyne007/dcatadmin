@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Repositories\Goods;
 use App\Models\Category;
+use App\Models\GoodsSpec;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
@@ -32,7 +33,7 @@ class GoodsController extends AdminController
                 if ($cate) return $cate->c_name;
             });
 
-            $grid->column('sku_id');
+            $grid->column('attribute_list');
             $grid->column('vendor_id');
             $grid->column('goods_sales');
             $grid->column('goods_smallpic')->display(function(){
@@ -45,7 +46,8 @@ class GoodsController extends AdminController
 
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
-        
+                $filter->equal('goods_code');
+                $filter->like('goods_name');
             });
         });
     }
@@ -72,7 +74,7 @@ class GoodsController extends AdminController
                 $cate = Category::select('c_name')->where('id',$cate_id_two)->first();
                 if ($cate) return $cate->c_name;
             });
-            $show->field('sku_id');
+            $show->field('attribute_list');
             $show->field('vendor_id');
             $show->field('goods_sales');
             $show->is_hot()->unescape()->as(function($is_hot){
@@ -121,16 +123,15 @@ class GoodsController extends AdminController
                 $sku_params = [
                     [
                         'name'    => '市场价', // table 第一行 title
-                        'field'   => 'column1', // input 的 field_name 名称
+                        'field'   => 'price2', // input 的 field_name 名称
                         'default' => '', // 默认值
                     ]
                 ];
 
-                $form->sku('sku_id', json_encode($sku_params))->display(true)->customFormat(function ($value) use ($form){
+                $form->sku('sku_tmp', json_encode($sku_params))->display(true)->customFormat(function ($value) use ($form){
                     if($value === null){
                         // 这里是给sku喂数据， 数据格式为
-                        $data = new stdClass();
-
+                        $data = new \stdClass();
                         $data->attrs = [
                             '颜色' => [
                                 '红色',
@@ -145,16 +146,18 @@ class GoodsController extends AdminController
                                 "颜色" => "红色",
                                 "大小" => '20',
                                 "pic" => '图片',
-                                "stock" => '库存',
-                                "price" => '价格',
+                                "stock" => '20',
+                                "price" => '200',
+                                "price2" => '200',
                                 // 如果存在其他属性，则同样在这里塞进去
                             ],
                             [
                                 "颜色" => "蓝色",
                                 "大小" => '20',
                                 "pic" => '图片',
-                                "stock" => '库存',
-                                "price" => '价格',
+                                "stock" => '10',
+                                "price" => '100',
+                                "price2" => '100',
                                 // 如果存在其他属性，则同样在这里塞进去
                             ]
                             // 根据attrs做笛卡尔积，会有两种情况， 红色20 蓝色20，所以这两中都应该有，自行编辑数据
@@ -163,7 +166,7 @@ class GoodsController extends AdminController
                     }
                     return null;
                 });
-                $form->image('goods_smallpic');
+                // $form->image('goods_smallpic');
                 $form->image('goods_bigpic');
                 $form->editor('goods_details');
 
@@ -172,10 +175,57 @@ class GoodsController extends AdminController
             $form->display('updated_at');
             // 保存前回调，在此事件中可以修改、删除用户提交的数据或者中断提交操作
             $form->saving(function (Form $form) {
-                dd($form->input());
-                // 获取规格属性及sku信息，并保存
-                $sku = $form->input('sku');
-                $data = json_decode($sku);
+                $goods_data = $form->input();
+                // 判断是否是新增操作
+                if ($form->isCreating()) {
+
+                    // 获取规格属性及sku信息，并保存
+                    if ($form->input('sku_tmp')=='') {
+                        // 中断后续逻辑
+                        return $form->response()->error('请设置属性值~');
+                    }
+                    $sku_tmp = json_decode($form->input('sku_tmp'),true);
+                    if (!isset($sku_tmp['sku']) || empty($sku_tmp['sku'])) {
+                        // 中断后续逻辑
+                        return $form->response()->error('sku有问题~');
+                    }
+                    $attribute_list = $sku_tmp['attrs'];
+                    $goods_data['attribute_list'] = json_encode($attribute_list,JSON_UNESCAPED_UNICODE);
+                    unset($goods_data['sku_tmp']);
+                    $goods = \App\Models\Goods::create($goods_data);
+                    $goodsId = $goods->id;
+                    $goods_specs = $sku_tmp['sku'];
+                    $stock_data = [];
+                    array_walk($goods_specs,function($val,$key) use (&$stock_data,$goodsId){
+                        $stock_data[$key]['goods_id'] = $goodsId;
+                        $stock_data[$key]['specs_key'] = $key;
+                        $stock_data[$key]['goods_stock'] = $val['stock'];
+                        $stock_data[$key]['goods_price'] = $val['price'];
+                        $stock_data[$key]['market_price'] = $val['price2'];
+                        $stock_data[$key]['spec_pic'] = $val['pic'];
+                        unset($val['pic']);
+                        unset($val['stock']);
+                        unset($val['price']);
+                        unset($val['price2']);
+                        $stock_data[$key]['goods_specs'] = json_encode($val,JSON_UNESCAPED_UNICODE);
+                    });
+
+                    // 保存到goods_specs表，生成sku数据
+                    $res = GoodsSpec::insert($stock_data);
+                    if (!$res) {
+                        $goods = new \App\Models\Goods();
+                        $goods->find($goodsId);
+                        $goods->delete();
+                        // 中断后续逻辑
+                        return $form->response()->error('存储失败')->redirect('goods/create');
+
+                    }
+
+                    return $form->response()->success('保存成功')->redirect('goods/create');
+
+                }
+            });
+            $form->saved(function (Form $form) {
 
             });
         });
